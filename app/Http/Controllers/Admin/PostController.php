@@ -101,6 +101,7 @@ class PostController extends Controller
             'content' => 'required',
             'published_at' => 'nullable|date|before_or_equal:today',
             'category_id' => 'nullable|exists:categories,id',
+            'tag_id' => 'exists:tags,id'
         ]);
 
         $data = $request->all();
@@ -108,6 +109,12 @@ class PostController extends Controller
         if ($post->title != $data['title']) {
             $slug = Post::getUniqueSlug($data['title']);
             $data['slug'] = $slug;
+        }
+
+        if (array_key_exists('tags',$data)) {
+            $post->tags()->sync($data['tags']);
+        } else {
+            $post->tags()->sync([]);
         }
 
         
