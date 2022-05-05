@@ -51,6 +51,13 @@
             @enderror
         </div>
 
+        @foreach ($tags as $tag)
+        <div class="form-group form-check">
+          <input type="checkbox" {{$post->tags->contains($tag) ? 'checked' : ''}} class="form-check-input" name="tags[]" id="tags-{{$tag->id}}">
+          <label class="form-check-label" for="tags-{{$tag->id}}">{{$tag->name}}</label>
+        </div>
+        @endforeach
+
         <button type="submit" class="btn btn-primary">Salva</button>
     </form>
     <form action="{{route('admin.posts.destroy',$post)}}" method="POST">
